@@ -1,4 +1,4 @@
-﻿namespace Business
+﻿namespace Business.Services
 {
     public class Class1
     {
