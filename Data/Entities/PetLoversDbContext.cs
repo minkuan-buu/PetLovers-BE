@@ -504,12 +504,11 @@ namespace Data.Entities
                     .HasColumnType("text")
                     .HasColumnName("name");
 
-                entity.Property(e => e.Password)
-                    .HasColumnType("text")
-                    .HasColumnName("password");
+                entity.Property(e => e.Password).HasColumnName("password");
 
                 entity.Property(e => e.Phone)
-                    .HasColumnType("text")
+                    .HasMaxLength(12)
+                    .IsUnicode(false)
                     .HasColumnName("phone");
 
                 entity.Property(e => e.RoleId).HasColumnName("roleId");
