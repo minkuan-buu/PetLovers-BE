@@ -9,14 +9,14 @@ namespace Data.Entities
         {
             TblNotifications = new HashSet<TblNotification>();
             TblPostCommentations = new HashSet<TblPostCommentation>();
-            TblPostReactionions = new HashSet<TblPostReactionion>();
+            TblPostReactions = new HashSet<TblPostReaction>();
             TblPostReports = new HashSet<TblPostReport>();
             TblPostStoreds = new HashSet<TblPostStored>();
         }
 
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public Guid CategoryId { get; set; }
+        public string Type { get; set; } = null!;
         public string Content { get; set; } = null!;
         public string Attachment { get; set; } = null!;
         public string Hashtag { get; set; } = null!;
@@ -27,7 +27,7 @@ namespace Data.Entities
         public virtual TblUser User { get; set; } = null!;
         public virtual ICollection<TblNotification> TblNotifications { get; set; }
         public virtual ICollection<TblPostCommentation> TblPostCommentations { get; set; }
-        public virtual ICollection<TblPostReactionion> TblPostReactionions { get; set; }
+        public virtual ICollection<TblPostReaction> TblPostReactions { get; set; }
         public virtual ICollection<TblPostReport> TblPostReports { get; set; }
         public virtual ICollection<TblPostStored> TblPostStoreds { get; set; }
     }

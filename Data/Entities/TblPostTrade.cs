@@ -19,7 +19,7 @@ namespace Data.Entities
         public string Hashtag { get; set; } = null!;
         public decimal? Price { get; set; }
         public string Status { get; set; } = null!;
-        public byte[] IsFree { get; set; } = null!;
+        public bool IsFree { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 
