@@ -15,5 +15,7 @@ namespace Data.Repositories.UserRepo
         Task<Guid> GetRoleId(string RoleName);
 
         Task<TblUser> GetUserByEmail(string Email);
+        
+        Task<TblUser> GetUserById(Guid id);
     }
 }

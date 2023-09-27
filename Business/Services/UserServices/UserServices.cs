@@ -131,5 +131,33 @@ namespace Business.Services.UserServices
             }
             return result;
         }
+
+        public async Task<ResultModel> GetUser(Guid id)
+        {
+            ResultModel result = new();
+            try
+            {
+                var User = _userRepo.GetUserById(id);
+                if (User == null)
+                {
+                    result.IsSuccess = false;
+                    result.Code = 400;
+                    result.Message = "User not found";
+                    return result;
+                }
+                result.IsSuccess = true;
+                result.Code = 200;
+                result.Data = User;
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Code = 400;
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+            return result;
+        }
     }
 }

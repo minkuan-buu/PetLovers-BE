@@ -8,7 +8,6 @@ namespace Data.Entities
         public TblPostCommentation()
         {
             TblPostReports = new HashSet<TblPostReport>();
-            TblPostlPendings = new HashSet<TblPostlPending>();
         }
 
         public Guid Id { get; set; }
@@ -23,6 +22,5 @@ namespace Data.Entities
         public virtual TblPost Post { get; set; } = null!;
         public virtual TblUser User { get; set; } = null!;
         public virtual ICollection<TblPostReport> TblPostReports { get; set; }
-        public virtual ICollection<TblPostlPending> TblPostlPendings { get; set; }
     }
 }

@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Data.Entities
+{
+    public partial class TblPostReaction
+    {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public Guid PostId { get; set; }
+        public string Type { get; set; } = null!;
+        public DateTime CreateAt { get; set; }
+
+        public virtual TblPost Post { get; set; } = null!;
+        public virtual TblUser User { get; set; } = null!;
+    }
+}

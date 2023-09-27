@@ -11,6 +11,7 @@ namespace Data.Entities
         public string Reason { get; set; } = null!;
         public Guid? ModeratorId { get; set; }
         public string Status { get; set; } = null!;
+        public bool IsProcessed { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 

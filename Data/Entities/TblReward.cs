@@ -12,6 +12,8 @@ namespace Data.Entities
 
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
+        public int? TotalPost { get; set; }
+        public int? TotalComment { get; set; }
         public string Status { get; set; } = null!;
 
         public virtual ICollection<TblUserReward> TblUserRewards { get; set; }
