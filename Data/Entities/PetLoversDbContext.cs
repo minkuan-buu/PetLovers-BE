@@ -18,19 +18,14 @@ namespace Data.Entities
 
         public virtual DbSet<TblNotification> TblNotifications { get; set; } = null!;
         public virtual DbSet<TblPost> TblPosts { get; set; } = null!;
-        public virtual DbSet<TblPostCommentation> TblPostCommentations { get; set; } = null!;
-        public virtual DbSet<TblPostReactionion> TblPostReactionions { get; set; } = null!;
-        public virtual DbSet<TblPostReport> TblPostReports { get; set; } = null!;
+        public virtual DbSet<TblPostReaction> TblPostReactions { get; set; } = null!;
         public virtual DbSet<TblPostStored> TblPostStoreds { get; set; } = null!;
-        public virtual DbSet<TblPostTrade> TblPostTrades { get; set; } = null!;
-        public virtual DbSet<TblPostlPending> TblPostlPendings { get; set; } = null!;
+        public virtual DbSet<TblReport> TblReports { get; set; } = null!;
         public virtual DbSet<TblReward> TblRewards { get; set; } = null!;
         public virtual DbSet<TblRole> TblRoles { get; set; } = null!;
-        public virtual DbSet<TblTradeRequestInfo> TblTradeRequestInfos { get; set; } = null!;
-        public virtual DbSet<TblTradeUserInfo> TblTradeUserInfos { get; set; } = null!;
+        public virtual DbSet<TblTradeRequest> TblTradeRequests { get; set; } = null!;
         public virtual DbSet<TblUser> TblUsers { get; set; } = null!;
-        public virtual DbSet<TblUserFollower> TblUserFollowers { get; set; } = null!;
-        public virtual DbSet<TblUserReport> TblUserReports { get; set; } = null!;
+        public virtual DbSet<TblUserFollowing> TblUserFollowings { get; set; } = null!;
         public virtual DbSet<TblUserReward> TblUserRewards { get; set; } = null!;
         public virtual DbSet<TblUserTimeout> TblUserTimeouts { get; set; } = null!;
 
@@ -39,7 +34,7 @@ namespace Data.Entities
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-6Q8041M\\SQLEXPRESS;Initial Catalog=PetLovers;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                optionsBuilder.UseSqlServer("Data Source=petlovers.database.windows.net;Initial Catalog=PetLovers;User ID=AdminPetLovers;Password=PetLovers@123;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             }
         }
 
@@ -50,11 +45,11 @@ namespace Data.Entities
                 entity.ToTable("tblNotification");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Content)
-                    .HasColumnType("text")
+                    .HasMaxLength(100)
                     .HasColumnName("content");
 
                 entity.Property(e => e.PostId).HasColumnName("postId");
@@ -70,18 +65,13 @@ namespace Data.Entities
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.TblNotifications)
                     .HasForeignKey(d => d.PostId)
-                    .HasConstraintName("FK__tblNotifi__postI__48CFD27E");
-
-                entity.HasOne(d => d.Trade)
-                    .WithMany(p => p.TblNotifications)
-                    .HasForeignKey(d => d.TradeId)
-                    .HasConstraintName("FK__tblNotifi__trade__5DCAEF64");
+                    .HasConstraintName("FK__tblNotifi__postI__02084FDA");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TblNotifications)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblNotifi__userI__59063A47");
+                    .HasConstraintName("FK__tblNotifi__userI__0C85DE4D");
             });
 
             modelBuilder.Entity<TblPost>(entity =>
@@ -89,30 +79,51 @@ namespace Data.Entities
                 entity.ToTable("tblPost");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(200)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("amount");
 
                 entity.Property(e => e.Attachment)
-                    .HasColumnType("text")
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
                     .HasColumnName("attachment");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryId");
-
-                entity.Property(e => e.Content)
-                    .HasColumnType("text")
-                    .HasColumnName("content");
+                entity.Property(e => e.Content).HasColumnName("content");
 
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createAt");
 
                 entity.Property(e => e.Hashtag)
-                    .HasColumnType("text")
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
                     .HasColumnName("hashtag");
 
+                entity.Property(e => e.IsFree).HasColumnName("isFree");
+
+                entity.Property(e => e.IsProcessed).HasColumnName("isProcessed");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(12)
+                    .IsUnicode(false)
+                    .HasColumnName("phone");
+
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
+
+                entity.Property(e => e.Type)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("type");
 
                 entity.Property(e => e.UpdateAt)
                     .HasColumnType("datetime")
@@ -124,24 +135,23 @@ namespace Data.Entities
                     .WithMany(p => p.TblPosts)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPost__userId__4CA06362");
+                    .HasConstraintName("FK__tblPost__userId__03F0984C");
             });
 
-            modelBuilder.Entity<TblPostCommentation>(entity =>
+            modelBuilder.Entity<TblPostReaction>(entity =>
             {
-                entity.ToTable("tblPostCommentation");
+                entity.ToTable("tblPostReaction");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Attachment)
-                    .HasColumnType("text")
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
                     .HasColumnName("attachment");
 
-                entity.Property(e => e.Content)
-                    .HasColumnType("text")
-                    .HasColumnName("content");
+                entity.Property(e => e.Content).HasColumnName("content");
 
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("datetime")
@@ -149,9 +159,15 @@ namespace Data.Entities
 
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
-                entity.Property(e => e.Status)
-                    .HasColumnType("text")
-                    .HasColumnName("status");
+                entity.Property(e => e.Type)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("type");
+
+                entity.Property(e => e.TypeReact)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("typeReact");
 
                 entity.Property(e => e.UpdateAt)
                     .HasColumnType("datetime")
@@ -160,94 +176,16 @@ namespace Data.Entities
                 entity.Property(e => e.UserId).HasColumnName("userId");
 
                 entity.HasOne(d => d.Post)
-                    .WithMany(p => p.TblPostCommentations)
+                    .WithMany(p => p.TblPostReactions)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostCo__postI__5AEE82B9");
+                    .HasConstraintName("FK__tblPostRe__postI__02FC7413");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblPostCommentations)
+                    .WithMany(p => p.TblPostReactions)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostCo__userI__571DF1D5");
-            });
-
-            modelBuilder.Entity<TblPostReactionion>(entity =>
-            {
-                entity.ToTable("tblPostReactionion");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.CreateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createAt");
-
-                entity.Property(e => e.PostId).HasColumnName("postId");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.TblPostReactionions)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostRe__postI__49C3F6B7");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblPostReactionions)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostRe__userI__5629CD9C");
-            });
-
-            modelBuilder.Entity<TblPostReport>(entity =>
-            {
-                entity.ToTable("tblPostReport");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.CommentationId).HasColumnName("commentationId");
-
-                entity.Property(e => e.CreateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createAt");
-
-                entity.Property(e => e.ModeratorId).HasColumnName("moderatorId");
-
-                entity.Property(e => e.PostId).HasColumnName("postId");
-
-                entity.Property(e => e.Reason)
-                    .HasColumnType("text")
-                    .HasColumnName("reason");
-
-                entity.Property(e => e.Status)
-                    .HasColumnType("text")
-                    .HasColumnName("status");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updatedAt");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Commentation)
-                    .WithMany(p => p.TblPostReports)
-                    .HasForeignKey(d => d.CommentationId)
-                    .HasConstraintName("FK__tblPostRe__comme__4BAC3F29");
-
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.TblPostReports)
-                    .HasForeignKey(d => d.PostId)
-                    .HasConstraintName("FK__tblPostRe__postI__4AB81AF0");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblPostReports)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostRe__userI__46E78A0C");
+                    .HasConstraintName("FK__tblPostRe__userI__0A9D95DB");
             });
 
             modelBuilder.Entity<TblPostStored>(entity =>
@@ -255,15 +193,16 @@ namespace Data.Entities
                 entity.ToTable("tblPostStored");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CreateAt).HasColumnName("createAt");
 
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
@@ -272,108 +211,69 @@ namespace Data.Entities
                     .WithMany(p => p.TblPostStoreds)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostSt__postI__52593CB8");
+                    .HasConstraintName("FK__tblPostSt__postI__06CD04F7");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TblPostStoreds)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostSt__userI__5070F446");
+                    .HasConstraintName("FK__tblPostSt__userI__04E4BC85");
             });
 
-            modelBuilder.Entity<TblPostTrade>(entity =>
+            modelBuilder.Entity<TblReport>(entity =>
             {
-                entity.ToTable("tblPostTrade");
+                entity.ToTable("tblReport");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.Attachment)
-                    .HasColumnType("text")
-                    .HasColumnName("attachment");
-
-                entity.Property(e => e.Content)
-                    .HasColumnType("text")
-                    .HasColumnName("content");
+                entity.Property(e => e.CommentId).HasColumnName("commentId");
 
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createAt");
 
-                entity.Property(e => e.Hashtag)
-                    .HasColumnType("text")
-                    .HasColumnName("hashtag");
-
-                entity.Property(e => e.InfoId).HasColumnName("infoId");
-
-                entity.Property(e => e.IsFree)
-                    .HasMaxLength(1)
-                    .HasColumnName("isFree")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Price)
-                    .HasColumnType("decimal(18, 0)")
-                    .HasColumnName("price");
-
-                entity.Property(e => e.Status)
-                    .HasColumnType("text")
-                    .HasColumnName("status");
-
-                entity.Property(e => e.UpdateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updateAt");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Info)
-                    .WithMany(p => p.TblPostTrades)
-                    .HasForeignKey(d => d.InfoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostTr__infoI__4F7CD00D");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblPostTrades)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostTr__userI__59FA5E80");
-            });
-
-            modelBuilder.Entity<TblPostlPending>(entity =>
-            {
-                entity.ToTable("tblPostlPending");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.CreateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createAt");
+                entity.Property(e => e.IsProcessed).HasColumnName("isProcessed");
 
                 entity.Property(e => e.ModeratorId).HasColumnName("moderatorId");
 
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
+                entity.Property(e => e.Reason)
+                    .HasMaxLength(200)
+                    .HasColumnName("reason");
+
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
 
-                entity.Property(e => e.UpdateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updateAt");
+                entity.Property(e => e.Type)
+                    .HasMaxLength(20)
+                    .HasColumnName("type");
 
-                entity.HasOne(d => d.Moderator)
-                    .WithMany(p => p.TblPostlPendings)
-                    .HasForeignKey(d => d.ModeratorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostlP__moder__4E88ABD4");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updatedAt");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.HasOne(d => d.Comment)
+                    .WithMany(p => p.TblReports)
+                    .HasForeignKey(d => d.CommentId)
+                    .HasConstraintName("FK__tblReport__comme__7F2BE32F");
 
                 entity.HasOne(d => d.Post)
-                    .WithMany(p => p.TblPostlPendings)
+                    .WithMany(p => p.TblReports)
                     .HasForeignKey(d => d.PostId)
+                    .HasConstraintName("FK__tblReport__postI__7E37BEF6");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TblReports)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblPostlP__postI__5BE2A6F2");
+                    .HasConstraintName("FK__tblReport__userI__7D439ABD");
             });
 
             modelBuilder.Entity<TblReward>(entity =>
@@ -381,16 +281,21 @@ namespace Data.Entities
                 entity.ToTable("tblReward");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name)
-                    .HasColumnType("text")
+                    .HasMaxLength(50)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
+
+                entity.Property(e => e.TotalComment).HasColumnName("totalComment");
+
+                entity.Property(e => e.TotalPost).HasColumnName("totalPost");
             });
 
             modelBuilder.Entity<TblRole>(entity =>
@@ -398,30 +303,34 @@ namespace Data.Entities
                 entity.ToTable("tblRole");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name)
-                    .HasColumnType("text")
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<TblTradeRequestInfo>(entity =>
+            modelBuilder.Entity<TblTradeRequest>(entity =>
             {
-                entity.ToTable("tblTradeRequestInfo");
+                entity.ToTable("tblTradeRequest");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createAt");
 
+                entity.Property(e => e.IsProcessed).HasColumnName("isProcessed");
+
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
 
                 entity.Property(e => e.UpdateAt)
@@ -431,57 +340,16 @@ namespace Data.Entities
                 entity.Property(e => e.UserId).HasColumnName("userId");
 
                 entity.HasOne(d => d.Post)
-                    .WithMany(p => p.TblTradeRequestInfos)
+                    .WithMany(p => p.TblTradeRequests)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblTradeR__postI__4316F928");
+                    .HasConstraintName("FK__tblTradeR__postI__0E6E26BF");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblTradeRequestInfos)
+                    .WithMany(p => p.TblTradeRequests)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblTradeR__userI__440B1D61");
-            });
-
-            modelBuilder.Entity<TblTradeUserInfo>(entity =>
-            {
-                entity.ToTable("tblTradeUserInfo");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Address)
-                    .HasColumnType("text")
-                    .HasColumnName("address");
-
-                entity.Property(e => e.CreateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createAt");
-
-                entity.Property(e => e.Email)
-                    .HasColumnType("text")
-                    .HasColumnName("email");
-
-                entity.Property(e => e.Name)
-                    .HasColumnType("text")
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Phone)
-                    .HasColumnType("text")
-                    .HasColumnName("phone");
-
-                entity.Property(e => e.UpdateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updateAt");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblTradeUserInfos)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblTradeU__userI__4D94879B");
+                    .HasConstraintName("FK__tblTradeR__userI__00200768");
             });
 
             modelBuilder.Entity<TblUser>(entity =>
@@ -489,19 +357,20 @@ namespace Data.Entities
                 entity.ToTable("tblUser");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createAt");
 
                 entity.Property(e => e.Email)
-                    .HasColumnType("text")
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
                     .HasColumnName("email");
 
                 entity.Property(e => e.Name)
-                    .HasColumnType("text")
+                    .HasMaxLength(100)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Password).HasColumnName("password");
@@ -514,7 +383,8 @@ namespace Data.Entities
                 entity.Property(e => e.RoleId).HasColumnName("roleId");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
 
                 entity.Property(e => e.UpdateAt)
@@ -530,79 +400,37 @@ namespace Data.Entities
                     .WithMany(p => p.TblUsers)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUser__roleId__5165187F");
+                    .HasConstraintName("FK__tblUser__roleId__05D8E0BE");
             });
 
-            modelBuilder.Entity<TblUserFollower>(entity =>
+            modelBuilder.Entity<TblUserFollowing>(entity =>
             {
-                entity.ToTable("tblUserFollower");
+                entity.ToTable("tblUserFollowing");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.FollowingId).HasColumnName("followingId");
+                entity.Property(e => e.FollowerId).HasColumnName("followerId");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
 
-                entity.HasOne(d => d.Following)
-                    .WithMany(p => p.TblUserFollowerFollowings)
-                    .HasForeignKey(d => d.FollowingId)
+                entity.HasOne(d => d.Follower)
+                    .WithMany(p => p.TblUserFollowingFollowers)
+                    .HasForeignKey(d => d.FollowerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserFo__follo__534D60F1");
+                    .HasConstraintName("FK__tblUserFo__follo__07C12930");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblUserFollowerUsers)
+                    .WithMany(p => p.TblUserFollowingUsers)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserFo__userI__5535A963");
-            });
-
-            modelBuilder.Entity<TblUserReport>(entity =>
-            {
-                entity.ToTable("tblUserReport");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.CreateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createAt");
-
-                entity.Property(e => e.ModeratorId).HasColumnName("moderatorId");
-
-                entity.Property(e => e.Reason)
-                    .HasColumnType("text")
-                    .HasColumnName("reason");
-
-                entity.Property(e => e.Status)
-                    .HasColumnType("text")
-                    .HasColumnName("status");
-
-                entity.Property(e => e.TargetUserId).HasColumnName("targetUserId");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updatedAt");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.TargetUser)
-                    .WithMany(p => p.TblUserReportTargetUsers)
-                    .HasForeignKey(d => d.TargetUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserRe__targe__45F365D3");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.TblUserReportUsers)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserRe__userI__44FF419A");
+                    .HasConstraintName("FK__tblUserFo__userI__09A971A2");
             });
 
             modelBuilder.Entity<TblUserReward>(entity =>
@@ -610,15 +438,16 @@ namespace Data.Entities
                 entity.ToTable("tblUserReward");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CreateAt).HasColumnName("createAt");
 
                 entity.Property(e => e.RewardId).HasColumnName("rewardId");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("text")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
                     .HasColumnName("status");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
@@ -627,13 +456,13 @@ namespace Data.Entities
                     .WithMany(p => p.TblUserRewards)
                     .HasForeignKey(d => d.RewardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserRe__rewar__5441852A");
+                    .HasConstraintName("FK__tblUserRe__rewar__08B54D69");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TblUserRewards)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserRe__userI__5CD6CB2B");
+                    .HasConstraintName("FK__tblUserRe__userI__0D7A0286");
             });
 
             modelBuilder.Entity<TblUserTimeout>(entity =>
@@ -641,8 +470,8 @@ namespace Data.Entities
                 entity.ToTable("tblUserTimeout");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("datetime")
@@ -654,9 +483,7 @@ namespace Data.Entities
 
                 entity.Property(e => e.ModeratorId).HasColumnName("moderatorId");
 
-                entity.Property(e => e.Reason)
-                    .HasColumnType("text")
-                    .HasColumnName("reason");
+                entity.Property(e => e.Reason).HasColumnName("reason");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
 
@@ -664,13 +491,13 @@ namespace Data.Entities
                     .WithMany(p => p.TblUserTimeoutModerators)
                     .HasForeignKey(d => d.ModeratorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserTi__moder__47DBAE45");
+                    .HasConstraintName("FK__tblUserTi__moder__01142BA1");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TblUserTimeoutUsers)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tblUserTi__userI__5812160E");
+                    .HasConstraintName("FK__tblUserTi__userI__0B91BA14");
             });
 
             OnModelCreatingPartial(modelBuilder);

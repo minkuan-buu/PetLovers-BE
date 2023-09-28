@@ -2,6 +2,7 @@
 using Data.Models.ResultModel;
 using Data.Repositories.UserRepo;
 using Business.Ultilities.UserAuthentication;
+using Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Business.Services.UserServices
             ResultModel result = new();
             try
             {
-                var getUserRoleId = await _userRepo.GetRoleId("User");
+                var getUserRoleId = await _userRepo.GetRoleId(Commons.USER);
                 var checkUserEmail = await _userRepo.GetUserByEmail(Email);
                 if (checkUserEmail != null)
                 {
@@ -34,17 +35,15 @@ namespace Business.Services.UserServices
                     return result;
                 }
                 byte[] HashPassword = UserAuthentication.CreatePasswordHash(Password);
-                Guid id = Guid.NewGuid();
                 DateTime Date = DateTime.Now;
                 TblUser UserModel = new TblUser()
                 {
-                    Id = id,
                     Email = Email,
                     Password = HashPassword,
                     Username = Username,
                     Name = Name,
                     Phone = Phone,
-                    Status = "Active",
+                    Status = UserStatus.ACTIVE,
                     RoleId = getUserRoleId,
                     CreateAt = Date,
                 };
@@ -120,6 +119,34 @@ namespace Business.Services.UserServices
                 result.Code = 200;
                 result.Data = User;
                 result.Message = "JWT da duoc xac thuc";
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Code = 400;
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+            return result;
+        }
+
+        public async Task<ResultModel> GetUser(Guid id)
+        {
+            ResultModel result = new();
+            try
+            {
+                var User = await _userRepo.GetUserById(id);
+                if (User == null)
+                {
+                    result.IsSuccess = false;
+                    result.Code = 400;
+                    result.Message = "User not found";
+                    return result;
+                }
+                result.IsSuccess = true;
+                result.Code = 200;
+                result.Data = User;
                 return result;
 
             }

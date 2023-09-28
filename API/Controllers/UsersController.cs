@@ -41,5 +41,12 @@ namespace API.Controllers
             Data.Models.ResultModel.ResultModel result = _user.ReadJWT(jwtToken, secretkey, issuer);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(Guid id)
+        {
+            Data.Models.ResultModel.ResultModel result = await _user.GetUser(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }
