@@ -1,5 +1,7 @@
 using Data.Entities;
 using Data.Repositories.UserRepo;
+using Data.Repositories.PostRepo;
+using Business.Services.PostServices;
 using Business.Services.UserServices;
 using Data.Repositories.UserRepo;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +21,16 @@ builder.Services.AddDbContext<PetLoversDbContext>(opt => opt.UseSqlServer(builde
 // Subcribe service
 //builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IPostServices, PostServices>();
+
 
 //Subcribe repository
 //builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<IPostRepo, PostRepo>();
+
+
+
 
 var app = builder.Build();
 
