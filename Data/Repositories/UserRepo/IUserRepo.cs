@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Entities;
+using Data.Models.UserModel;
 using Data.Repositories.GenericRepository;
 
 namespace Data.Repositories.UserRepo
@@ -15,5 +16,7 @@ namespace Data.Repositories.UserRepo
         Task<Guid> GetRoleId(string RoleName);
 
         Task<TblUser> GetUserByEmail(string Email);
+        
+        Task<UserModel> GetUserById(Guid id);
     }
 }
