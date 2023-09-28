@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data.Entities
 {
-    public partial class TblUserFollower
+    public partial class TblUserFollowing
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }

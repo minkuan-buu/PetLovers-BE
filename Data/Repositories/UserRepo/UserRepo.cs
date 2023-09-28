@@ -36,7 +36,8 @@ namespace Data.Repositories.UserRepo
 
         public async Task<TblUser> GetUserById(Guid id)
         {
-            return await _context.TblUsers.Where(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            TblUser user = await _context.TblUsers.Where(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            return user;
         }
     }
 }

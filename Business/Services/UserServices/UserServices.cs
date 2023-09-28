@@ -34,11 +34,9 @@ namespace Business.Services.UserServices
                     return result;
                 }
                 byte[] HashPassword = UserAuthentication.CreatePasswordHash(Password);
-                Guid id = Guid.NewGuid();
                 DateTime Date = DateTime.Now;
                 TblUser UserModel = new TblUser()
                 {
-                    Id = id,
                     Email = Email,
                     Password = HashPassword,
                     Username = Username,
@@ -137,7 +135,7 @@ namespace Business.Services.UserServices
             ResultModel result = new();
             try
             {
-                var User = _userRepo.GetUserById(id);
+                var User = await _userRepo.GetUserById(id);
                 if (User == null)
                 {
                     result.IsSuccess = false;
