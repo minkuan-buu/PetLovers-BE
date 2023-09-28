@@ -2,6 +2,7 @@
 using Data.Models.ResultModel;
 using Data.Repositories.UserRepo;
 using Business.Ultilities.UserAuthentication;
+using Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Business.Services.UserServices
             ResultModel result = new();
             try
             {
-                var getUserRoleId = await _userRepo.GetRoleId("User");
+                var getUserRoleId = await _userRepo.GetRoleId(Commons.USER);
                 var checkUserEmail = await _userRepo.GetUserByEmail(Email);
                 if (checkUserEmail != null)
                 {
@@ -42,7 +43,7 @@ namespace Business.Services.UserServices
                     Username = Username,
                     Name = Name,
                     Phone = Phone,
-                    Status = "Active",
+                    Status = UserStatus.ACTIVE,
                     RoleId = getUserRoleId,
                     CreateAt = Date,
                 };
