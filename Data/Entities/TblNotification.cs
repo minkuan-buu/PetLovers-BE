@@ -13,7 +13,6 @@ namespace Data.Entities
         public DateTime UpdateAt { get; set; }
 
         public virtual TblPost? Post { get; set; }
-        public virtual TblPostTrade? Trade { get; set; }
         public virtual TblUser User { get; set; } = null!;
     }
 }

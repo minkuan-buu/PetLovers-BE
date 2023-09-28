@@ -8,19 +8,13 @@ namespace Data.Entities
         public TblUser()
         {
             TblNotifications = new HashSet<TblNotification>();
-            TblPostCommentations = new HashSet<TblPostCommentation>();
-            TblPostReactionions = new HashSet<TblPostReactionion>();
-            TblPostReports = new HashSet<TblPostReport>();
+            TblPostReactions = new HashSet<TblPostReaction>();
             TblPostStoreds = new HashSet<TblPostStored>();
-            TblPostTrades = new HashSet<TblPostTrade>();
-            TblPostlPendings = new HashSet<TblPostlPending>();
             TblPosts = new HashSet<TblPost>();
-            TblTradeRequestInfos = new HashSet<TblTradeRequestInfo>();
-            TblTradeUserInfos = new HashSet<TblTradeUserInfo>();
-            TblUserFollowerFollowings = new HashSet<TblUserFollower>();
-            TblUserFollowerUsers = new HashSet<TblUserFollower>();
-            TblUserReportTargetUsers = new HashSet<TblUserReport>();
-            TblUserReportUsers = new HashSet<TblUserReport>();
+            TblReports = new HashSet<TblReport>();
+            TblTradeRequests = new HashSet<TblTradeRequest>();
+            TblUserFollowingFollowers = new HashSet<TblUserFollowing>();
+            TblUserFollowingUsers = new HashSet<TblUserFollowing>();
             TblUserRewards = new HashSet<TblUserReward>();
             TblUserTimeoutModerators = new HashSet<TblUserTimeout>();
             TblUserTimeoutUsers = new HashSet<TblUserTimeout>();
@@ -39,19 +33,13 @@ namespace Data.Entities
 
         public virtual TblRole Role { get; set; } = null!;
         public virtual ICollection<TblNotification> TblNotifications { get; set; }
-        public virtual ICollection<TblPostCommentation> TblPostCommentations { get; set; }
-        public virtual ICollection<TblPostReactionion> TblPostReactionions { get; set; }
-        public virtual ICollection<TblPostReport> TblPostReports { get; set; }
+        public virtual ICollection<TblPostReaction> TblPostReactions { get; set; }
         public virtual ICollection<TblPostStored> TblPostStoreds { get; set; }
-        public virtual ICollection<TblPostTrade> TblPostTrades { get; set; }
-        public virtual ICollection<TblPostlPending> TblPostlPendings { get; set; }
         public virtual ICollection<TblPost> TblPosts { get; set; }
-        public virtual ICollection<TblTradeRequestInfo> TblTradeRequestInfos { get; set; }
-        public virtual ICollection<TblTradeUserInfo> TblTradeUserInfos { get; set; }
-        public virtual ICollection<TblUserFollower> TblUserFollowerFollowings { get; set; }
-        public virtual ICollection<TblUserFollower> TblUserFollowerUsers { get; set; }
-        public virtual ICollection<TblUserReport> TblUserReportTargetUsers { get; set; }
-        public virtual ICollection<TblUserReport> TblUserReportUsers { get; set; }
+        public virtual ICollection<TblReport> TblReports { get; set; }
+        public virtual ICollection<TblTradeRequest> TblTradeRequests { get; set; }
+        public virtual ICollection<TblUserFollowing> TblUserFollowingFollowers { get; set; }
+        public virtual ICollection<TblUserFollowing> TblUserFollowingUsers { get; set; }
         public virtual ICollection<TblUserReward> TblUserRewards { get; set; }
         public virtual ICollection<TblUserTimeout> TblUserTimeoutModerators { get; set; }
         public virtual ICollection<TblUserTimeout> TblUserTimeoutUsers { get; set; }
