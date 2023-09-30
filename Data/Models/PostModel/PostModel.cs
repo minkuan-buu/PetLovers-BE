@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Models.CommentModel
+namespace Data.Models.PostModel
 {
-    internal class CommentResModel
+    public class PostModel
     {
     }
 }

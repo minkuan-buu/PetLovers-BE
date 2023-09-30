@@ -28,5 +28,12 @@ namespace API.Controllers
             Data.Models.ResultModel.ResultModel result = await _post.GetPostById(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet("trade/{id}")]
+        public async Task<IActionResult> GetTradePost(Guid id)
+        {
+            Data.Models.ResultModel.ResultModel result = await _post.GetPostById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }

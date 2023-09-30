@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Services.CommentServices
+namespace Data.Models.PostModel
 {
-    internal interface ICommentServices
+    public class TradePostModel
     {
+        public Guid id { get; set; }
+
     }
 }

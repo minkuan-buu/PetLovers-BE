@@ -26,13 +26,19 @@ namespace Business.Services.UserServices
             try
             {
                 var getUserRoleId = await _userRepo.GetRoleId(Commons.USER);
+                var checkUserUsername = await _userRepo.getUserByUsername(Username);
                 var checkUserEmail = await _userRepo.GetUserByEmail(Email);
                 if (checkUserEmail != null)
                 {
                     result.IsSuccess = false;
-                    result.Code = 400;
+                    result.Code = 200;
                     result.Message = "Trung Email";
                     return result;
+                } else if(checkUserUsername != null)
+                {
+                    result.IsSuccess = false;
+                    result.Code = 200;
+                    result.Message = "Trung username";
                 }
                 byte[] HashPassword = UserAuthentication.CreatePasswordHash(Password);
                 DateTime Date = DateTime.Now;

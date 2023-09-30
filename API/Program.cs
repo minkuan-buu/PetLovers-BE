@@ -3,8 +3,9 @@ using Data.Repositories.UserRepo;
 using Data.Repositories.PostRepo;
 using Business.Services.PostServices;
 using Business.Services.UserServices;
-using Data.Repositories.UserRepo;
 using Microsoft.EntityFrameworkCore;
+using Business.Services.MailServices;
+using Data.Repositories.OTPRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +23,15 @@ builder.Services.AddDbContext<PetLoversDbContext>(opt => opt.UseSqlServer(builde
 //builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IPostServices, PostServices>();
+builder.Services.AddScoped<IEmailServices, EmailServices>();
 
 
 //Subcribe repository
 //builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<IPostRepo, PostRepo>();
+builder.Services.AddTransient<IOTPRepo, OTPRepo>();
+
 
 
 
