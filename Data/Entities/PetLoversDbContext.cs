@@ -17,6 +17,7 @@ namespace Data.Entities
         }
 
         public virtual DbSet<TblNotification> TblNotifications { get; set; } = null!;
+        public virtual DbSet<TblOtpverify> TblOtpverifies { get; set; } = null!;
         public virtual DbSet<TblPost> TblPosts { get; set; } = null!;
         public virtual DbSet<TblPostReaction> TblPostReactions { get; set; } = null!;
         public virtual DbSet<TblPostStored> TblPostStoreds { get; set; } = null!;
@@ -72,6 +73,29 @@ namespace Data.Entities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__tblNotifi__userI__0C85DE4D");
+            });
+
+            modelBuilder.Entity<TblOtpverify>(entity =>
+            {
+                entity.ToTable("tblOTPVerify");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.ExpiredAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("expiredAt");
+
+                entity.Property(e => e.OtpCode)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("otpCode");
             });
 
             modelBuilder.Entity<TblPost>(entity =>
