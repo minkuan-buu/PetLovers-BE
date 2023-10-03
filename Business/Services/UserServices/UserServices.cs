@@ -51,7 +51,7 @@ namespace Business.Services.UserServices
 
                 result.IsSuccess = true;
                 result.Code = 200;
-                result.Data = HashPassword;
+                //result.Data = HashPassword;
                 return result;
 
             }
