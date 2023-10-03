@@ -22,7 +22,7 @@ namespace API.Controllers
             _post = post;
         }
 
-        [HttpGet("{id}")]
+        [HttpPut("{id:Guid}")]
         public async Task<IActionResult> GetPost(Guid id)
         {
             Data.Models.ResultModel.ResultModel result = await _post.GetPostById(id);

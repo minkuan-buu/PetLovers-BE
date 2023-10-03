@@ -51,7 +51,7 @@ namespace Business.Services.UserServices
 
                 result.IsSuccess = true;
                 result.Code = 200;
-                //result.Data = HashPassword;
+                result.Data = HashPassword;
                 return result;
 
             }
@@ -117,7 +117,7 @@ namespace Business.Services.UserServices
                 }
                 result.IsSuccess = true;
                 result.Code = 200;
-                result.Data = User;
+                //result.Data = User;
                 result.Message = "JWT da duoc xac thuc";
                 return result;
 
