@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Data.Models.CommentModel
 {
-    internal class CommentReqModel
+    public class CommentReqModel
     {
+        public String? content { get; set; }
+        public String? attachment { get; set; }
     }
 }

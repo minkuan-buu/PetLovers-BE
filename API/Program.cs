@@ -2,9 +2,11 @@ using Data.Entities;
 using Data.Repositories.UserRepo;
 using Data.Repositories.PostRepo;
 using Business.Services.PostServices;
+using Business.Services.CommentServices;
 using Business.Services.UserServices;
 using Data.Repositories.UserRepo;
 using Microsoft.EntityFrameworkCore;
+using Data.Repositories.CommentRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +24,14 @@ builder.Services.AddDbContext<PetLoversDbContext>(opt => opt.UseSqlServer(builde
 //builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IPostServices, PostServices>();
+builder.Services.AddScoped<ICommentServices, CommentServices>();
 
 
 //Subcribe repository
 //builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<IPostRepo, PostRepo>();
+builder.Services.AddTransient<ICommentRepo, CommentRepo>();
 
 
 
