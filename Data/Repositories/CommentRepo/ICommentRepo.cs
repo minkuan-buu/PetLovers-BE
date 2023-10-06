@@ -11,6 +11,6 @@ namespace Data.Repositories.CommentRepo
     public interface ICommentRepo
     {
         public Task<CommentResModel> GetCommentById(Guid id);
-        Task<List<CommentResModel>> GetCommentsByPostId(Guid postId);
+        public Task<List<CommentResModel>> GetCommentsByPostId(Guid postId);
     }
 }

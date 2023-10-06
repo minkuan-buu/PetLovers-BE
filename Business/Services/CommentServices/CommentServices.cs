@@ -3,15 +3,18 @@ using Data.Models.CommentModel;
 using Data.Models.ResultModel;
 using Data.Repositories.CommentRepo;
 using Data.Repositories.PostRepo;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Services.CommentServices
 {
-    public class CommentServices : ICommentServices
+    public class CommentServices : ICommentServices //ko biết sao lỗi
     {
         private readonly ICommentRepo _commentRepo;
 
@@ -38,15 +41,12 @@ namespace Business.Services.CommentServices
         }
         public async Task<ResultModel> GetCommentsForPost(Guid postId)
         {
-            var comments = await _commentRepo.GetCommentsByPostId(postId);
-
-            var result = new ResultModel
-            {
-                IsSuccess = true,
-                Data = comments
-            };
-
-            return result;
+            ResultModel result = new();
+            List<CommentResModel> comments = (List<CommentResModel>) await _commentRepo.GetCommentsByPostId(postId);
+            result.IsSuccess = true;
+            result.Code = 200;
+            result.Data = comments;
+            return result; 
         }
     }
 }

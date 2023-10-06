@@ -11,5 +11,6 @@ namespace Data.Models.CommentModel
         public Guid Id { get; set; }
         public string? content { get; set; }
         public string? attachment { get; set; }
+        public DateTime? createdAt { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace Business.Services.CommentServices
     public interface ICommentServices
     {
         public Task<ResultModel> GetCommentById(Guid id);
-        Task<ResultModel> GetCommentsForPost(Guid postId);
+        public Task<ResultModel> GetCommentsForPost(Guid postId);
     }
 }

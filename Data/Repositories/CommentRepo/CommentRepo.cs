@@ -33,12 +33,13 @@ namespace Data.Repositories.CommentRepo
         }
         public async Task<List<CommentResModel>> GetCommentsByPostId(Guid postId)
         {
-            var comments = await _context.TblPostReactions.Where(c => c.PostId.Equals(postId) && c.Type.Equals("Comment")).ToListAsync();
-            return comments.Select(c => new CommentResModel
+            var comments = await _context.TblPostReactions.Where(c => c.PostId.Equals(postId) && c.Type.Equals("Comment")).OrderBy(c => c.CreateAt).ToListAsync();
+                return comments.Select(c => new CommentResModel
             {
                 Id = c.Id,
                 content = c.Content,
-                attachment = c.Attachment
+                attachment = c.Attachment,
+                createdAt = c.CreateAt
             }).ToList();
         }
     }

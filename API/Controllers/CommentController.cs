@@ -31,9 +31,8 @@ namespace API.Controllers
         [HttpGet("post/{postId}")]
         public async Task<IActionResult> GetPostComments(Guid postId)
         {
-            var result = await _comment.GetCommentsForPost(postId);
-
+            Data.Models.ResultModel.ResultModel result = await _comment.GetCommentsForPost(postId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
-}
+    }
