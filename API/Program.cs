@@ -1,13 +1,17 @@
 using Data.Entities;
 using Azure.Identity;
 using Data.Repositories.UserRepo;
+using Data.Repositories.PostRepo;
+using Data.Repositories.CommentRepo;
+using Business.Services.PostServices;
+using Business.Services.CommentServices;
 using Business.Services.UserServices;
 using Data.Repositories.UserRepo;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,10 +45,18 @@ if (builder.Environment.IsDevelopment())
 // Subcribe service
 //builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IPostServices, PostServices>();
+builder.Services.AddScoped<ICommentServices, CommentServices>();
+
 
 //Subcribe repository
 //builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<IPostRepo, PostRepo>();
+builder.Services.AddTransient<ICommentRepo, CommentRepo>();
+
+
+
 
 var app = builder.Build();
 
