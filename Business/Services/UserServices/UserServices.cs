@@ -27,11 +27,19 @@ namespace Business.Services.UserServices
             {
                 var getUserRoleId = await _userRepo.GetRoleId(Commons.USER);
                 var checkUserEmail = await _userRepo.GetUserByEmail(Email);
+                var checkUserUsername = await _userRepo.getUserByUsername(Username);
                 if (checkUserEmail != null)
                 {
                     result.IsSuccess = false;
                     result.Code = 400;
                     result.Message = "Trung Email";
+                    return result;
+                }
+                if (checkUserUsername != null)
+                {
+                    result.IsSuccess = false;
+                    result.Code = 400;
+                    result.Message = "Trung Username";
                     return result;
                 }
                 byte[] HashPassword = UserAuthentication.CreatePasswordHash(Password);
@@ -51,7 +59,7 @@ namespace Business.Services.UserServices
 
                 result.IsSuccess = true;
                 result.Code = 200;
-                result.Data = HashPassword;
+                //result.Data = HashPassword;
                 return result;
 
             }
