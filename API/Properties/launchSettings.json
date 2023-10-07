@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -16,7 +16,10 @@
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7289;http://localhost:5023",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://petlovers.vault.azure.net/",
+        "AZURE_USERNAME": "quandnmse171686@fpt.edu.vn",
+        "ConnectionString": "https://petloverssecret.vault.azure.net/"
       }
     },
     "IIS Express": {
@@ -24,7 +27,10 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://petlovers.vault.azure.net/",
+        "AZURE_USERNAME": "quandnmse171686@fpt.edu.vn",
+        "ConnectionString": "https://petloverssecret.vault.azure.net/"
       }
     }
   }

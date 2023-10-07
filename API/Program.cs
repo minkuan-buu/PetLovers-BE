@@ -12,8 +12,12 @@ using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
+using Business.Services.SecretServices;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("ConnectionString"));
+builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 // Add services to the container.
 
@@ -25,7 +29,7 @@ builder.Services.AddSwaggerGen();
 // Connect Database 
 //builder.Services.AddDbContext<PetLoversDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-if (builder.Environment.IsDevelopment())
+/*if (builder.Environment.IsDevelopment())
 {
     var keyVaultURL = builder.Configuration.GetSection("KeyVault:KeyVaultURL"); 
     var keyVaultClientId = builder.Configuration.GetSection("KeyVault:ClientId"); 
@@ -40,7 +44,9 @@ if (builder.Environment.IsDevelopment())
     { 
         options.UseSqlServer(client.GetSecret("PetLoversDatabase").Value.Value.ToString());
     });
-}
+}*/
+
+builder.Services.AddDbContext<PetLoversDbContext>(option => option.UseSqlServer(SecretService.GetConnectionString()));
 
 // Subcribe service
 //builder.Services.AddScoped<ICategoryService, CategoryService>();
