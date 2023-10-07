@@ -2,6 +2,7 @@ using Data.Entities;
 using Azure.Identity;
 using Data.Repositories.UserRepo;
 using Data.Repositories.PostRepo;
+using Data.Repositories.CommentRepo;
 using Business.Services.PostServices;
 using Business.Services.CommentServices;
 using Business.Services.UserServices;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
