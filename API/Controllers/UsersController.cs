@@ -42,7 +42,7 @@ namespace API.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpPut("{id:Guid}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
             Data.Models.ResultModel.ResultModel result = await _user.GetUser(id);

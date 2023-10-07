@@ -28,6 +28,7 @@ namespace Business.Services.UserServices
                 var getUserRoleId = await _userRepo.GetRoleId(Commons.USER);
                 var checkUserUsername = await _userRepo.getUserByUsername(Username);
                 var checkUserEmail = await _userRepo.GetUserByEmail(Email);
+                var checkUserUsername = await _userRepo.getUserByUsername(Username);
                 if (checkUserEmail != null)
                 {
                     result.IsSuccess = false;
@@ -39,6 +40,13 @@ namespace Business.Services.UserServices
                     result.IsSuccess = false;
                     result.Code = 200;
                     result.Message = "Trung username";
+                }
+                if (checkUserUsername != null)
+                {
+                    result.IsSuccess = false;
+                    result.Code = 400;
+                    result.Message = "Trung Username";
+                    return result;
                 }
                 byte[] HashPassword = UserAuthentication.CreatePasswordHash(Password);
                 DateTime Date = DateTime.Now;
@@ -57,7 +65,7 @@ namespace Business.Services.UserServices
 
                 result.IsSuccess = true;
                 result.Code = 200;
-                result.Data = HashPassword;
+                //result.Data = HashPassword;
                 return result;
 
             }
@@ -123,7 +131,7 @@ namespace Business.Services.UserServices
                 }
                 result.IsSuccess = true;
                 result.Code = 200;
-                result.Data = User;
+                //result.Data = User;
                 result.Message = "JWT da duoc xac thuc";
                 return result;
 
