@@ -40,5 +40,63 @@ namespace Business.Services.SecretServices
 
             return conn;
         }
+        
+        public static string GetJWTKey()
+        {
+            string? key = null;
+            try
+            {
+                SecretClientOptions options = new()
+                {
+                    Retry =
+                    {
+                        Delay= TimeSpan.FromSeconds(2),
+                        MaxDelay = TimeSpan.FromSeconds(16),
+                        MaxRetries = 5,
+                        Mode = RetryMode.Exponential
+                    }
+                };
+                SecretClient client = new(new Uri(URI), new DefaultAzureCredential(), options);
+
+                KeyVaultSecret secret = client.GetSecret("JWTKey");
+
+                key = secret.Value;
+            }
+            catch (Exception ex)
+            {
+                _ = ex.ToString();
+            }
+
+            return key;
+        }
+
+        public static string GetJWTIssuser()
+        {
+            string? issuser = null;
+            try
+            {
+                SecretClientOptions options = new()
+                {
+                    Retry =
+                    {
+                        Delay= TimeSpan.FromSeconds(2),
+                        MaxDelay = TimeSpan.FromSeconds(16),
+                        MaxRetries = 5,
+                        Mode = RetryMode.Exponential
+                    }
+                };
+                SecretClient client = new(new Uri(URI), new DefaultAzureCredential(), options);
+
+                KeyVaultSecret secret = client.GetSecret("JWTIssuser");
+
+                issuser = secret.Value;
+            }
+            catch (Exception ex)
+            {
+                _ = ex.ToString();
+            }
+
+            return issuser;
+        }
     }
 }
