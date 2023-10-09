@@ -54,7 +54,6 @@ namespace Data.Repositories.UserRepo
 
         public async Task<List<UserModel>> GetFollowingUser(Guid authorId)
         {
-            string abc = "";
             var result = new List<UserModel>() ;
             var listFollowers = await _context.TblUserFollowings.Where(x => x.UserId.Equals(authorId)).ToListAsync();
 
