@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Models.UserModel;
-using Data.Repositories.PostRepo;
 
 namespace Data.Repositories.PostRepo
 {
