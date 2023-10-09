@@ -28,7 +28,6 @@ namespace Business.Services.UserServices
                 var getUserRoleId = await _userRepo.GetRoleId(Commons.USER);
                 var checkUserUsername = await _userRepo.getUserByUsername(Username);
                 var checkUserEmail = await _userRepo.GetUserByEmail(Email);
-                var checkUserUsername = await _userRepo.getUserByUsername(Username);
                 if (checkUserEmail != null)
                 {
                     result.IsSuccess = false;

@@ -12,9 +12,9 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Models.PostModel
+namespace Business.Services.CommentServices
 {
-    public class CommentServices : ICommentServices
+    public class CommentServices : ICommentServices //ko biết sao lỗi
     {
         private readonly ICommentRepo _commentRepo;
 

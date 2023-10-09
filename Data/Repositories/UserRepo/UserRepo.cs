@@ -69,7 +69,7 @@ namespace Data.Repositories.UserRepo
                 UserModelPaste.CreateAt = folowerInfor.CreateAt;
                 result.Add(UserModelPaste);
             }
-            return result ;
+            return result;
 
 
             /*List<TblUserFollowing>? data = await _context.TblUserFollowings.Where(x => x.UserId.Equals(authorId)).ToListAsync();

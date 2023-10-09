@@ -6,14 +6,16 @@ using Data.Repositories.PostRepo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Business.Services.SecretServices;
 using System.Text;
 using System.Threading.Tasks;
 using MailKit.Security;
 using MailKit.Net.Smtp;
 using MimeKit;
 using static System.Net.WebRequestMethods;
+using System.Net.Mail;
 
-namespace Business.Services.MailServices
+namespace Business.Services.EmailServices
 {
     public class EmailServices : IEmailServices
     {
@@ -44,11 +46,10 @@ namespace Business.Services.MailServices
                     ExpiredAt = expiredAt,
                 };
                 _ = await _OTPRepo.Insert(newOTP);
-                string from = "petlovers.hotro@gmail.com";
-                string pass = "hkbr pqdy crnd livx";
-                //string pass = "aycs smsm lbdr jesv";
+                string from = SecretService.GetSMTPEmail();
+                string pass = SecretService.GetSMTPPass();
                 MimeMessage message = new();
-                message.From.Add(MailboxAddress.Parse("petlovers.hotro@gmail.com"));
+                message.From.Add(MailboxAddress.Parse(SecretService.GetSMTPEmail()));
                 message.Subject = "[PETLOVERS - VERIFY YOUR ACCOUNT]";
                 message.To.Add(MailboxAddress.Parse(toEmail));
                 message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -63,7 +64,7 @@ namespace Business.Services.MailServices
                     "</body>" +
                     "</html>"
                 };
-                using SmtpClient smtp = new();
+                using MailKit.Net.Smtp.SmtpClient smtp = new();
                 await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
                 await smtp.AuthenticateAsync(from, pass);
                 _ = await smtp.SendAsync(message);

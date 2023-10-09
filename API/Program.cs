@@ -6,9 +6,11 @@ using Data.Repositories.CommentRepo;
 using Business.Services.PostServices;
 using Business.Services.CommentServices;
 using Business.Services.UserServices;
+using Business.Services.EmailServices;
 using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
 using Business.Services.SecretServices;
+using Data.Repositories.OTPRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -98,5 +98,63 @@ namespace Business.Services.SecretServices
 
             return issuser;
         }
+
+        public static string GetSMTPEmail()
+        {
+            string? issuser = null;
+            try
+            {
+                SecretClientOptions options = new()
+                {
+                    Retry =
+                    {
+                        Delay= TimeSpan.FromSeconds(2),
+                        MaxDelay = TimeSpan.FromSeconds(16),
+                        MaxRetries = 5,
+                        Mode = RetryMode.Exponential
+                    }
+                };
+                SecretClient client = new(new Uri(URI), new DefaultAzureCredential(), options);
+
+                KeyVaultSecret secret = client.GetSecret("SMTPEmail");
+
+                issuser = secret.Value;
+            }
+            catch (Exception ex)
+            {
+                _ = ex.ToString();
+            }
+
+            return issuser;
+        }
+
+        public static string GetSMTPPass()
+        {
+            string? issuser = null;
+            try
+            {
+                SecretClientOptions options = new()
+                {
+                    Retry =
+                    {
+                        Delay= TimeSpan.FromSeconds(2),
+                        MaxDelay = TimeSpan.FromSeconds(16),
+                        MaxRetries = 5,
+                        Mode = RetryMode.Exponential
+                    }
+                };
+                SecretClient client = new(new Uri(URI), new DefaultAzureCredential(), options);
+
+                KeyVaultSecret secret = client.GetSecret("SMTPPass");
+
+                issuser = secret.Value;
+            }
+            catch (Exception ex)
+            {
+                _ = ex.ToString();
+            }
+
+            return issuser;
+        }
     }
 }

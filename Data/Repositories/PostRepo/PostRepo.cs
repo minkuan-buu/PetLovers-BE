@@ -15,7 +15,7 @@ namespace Data.Repositories.PostRepo
     public class PostRepo : Repository<TblPost>, IPostRepo
     {
         private readonly PetLoversDbContext _context;
-        private readonly IUserRepo _userRepo;
+
         public PostRepo(/*IMapper mapper,*/ PetLoversDbContext context) : base(context)
         {
             //_mapper = mapper;
@@ -26,9 +26,23 @@ namespace Data.Repositories.PostRepo
             return await _context.TblPosts.Where(x => x.Id.Equals(id)).FirstOrDefaultAsync();
         }
 
-        public async Task<List<PostResModel>> GetNewFeed(Guid id)
+        public async Task<List<PostResModel>> GetNewFeed(Guid userId)
         {
-            List<UserModel> following = await _userRepo.GetFollowingUser(id);
+            var following = new List<UserModel>();
+            var listFollowers = await _context.TblUserFollowings.Where(x => x.UserId.Equals(userId)).ToListAsync();
+
+            foreach (var folower in listFollowers)
+            {
+                var folowerInfor = await _context.TblUsers.Where(x => x.Id.Equals(folower.Id)).FirstOrDefaultAsync();
+                var UserModelPaste = new UserModel();
+                UserModelPaste.Id = folower.Id;
+                UserModelPaste.Username = folowerInfor.Username;
+                UserModelPaste.RoleId = folowerInfor.RoleId;
+                UserModelPaste.Status = folowerInfor.Status;
+                UserModelPaste.Email = folowerInfor.Email;
+                UserModelPaste.CreateAt = folowerInfor.CreateAt;
+                following.Add(UserModelPaste);
+            }
             List<PostResModel> posts = new();
             DateTime now = DateTime.Now;
             if (following != null)
