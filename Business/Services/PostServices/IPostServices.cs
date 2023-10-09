@@ -10,5 +10,6 @@ namespace Business.Services.PostServices
     public interface IPostServices
     {
         public Task<ResultModel> GetPostById(Guid id);
+        public Task<ResultModel> GetNewsFeed(Guid UserId);
     }
 }

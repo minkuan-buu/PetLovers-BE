@@ -22,10 +22,17 @@ namespace API.Controllers
             _post = post;
         }
 
-        [HttpPut("{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetPost(Guid id)
         {
             Data.Models.ResultModel.ResultModel result = await _post.GetPostById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("load-news-feed")]
+        public async Task<IActionResult> GetNewsFeed(Guid id)
+        {
+            Data.Models.ResultModel.ResultModel result = await _post.GetNewsFeed(id);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
