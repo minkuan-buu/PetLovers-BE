@@ -6,9 +6,11 @@ using Data.Repositories.CommentRepo;
 using Business.Services.PostServices;
 using Business.Services.CommentServices;
 using Business.Services.UserServices;
+using Business.Services.EmailServices;
 using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
 using Business.Services.SecretServices;
+using Data.Repositories.OTPRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +31,14 @@ builder.Services.AddDbContext<PetLoversDbContext>(option => option.UseSqlServer(
 // Subcribe service
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IPostServices, PostServices>();
+builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<ICommentServices, CommentServices>();
 
 
 //Subcribe repository
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<IPostRepo, PostRepo>();
+builder.Services.AddTransient<IOTPRepo, OTPRepo>();
 builder.Services.AddTransient<ICommentRepo, CommentRepo>();
 
 
