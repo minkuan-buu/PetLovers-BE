@@ -29,12 +29,14 @@ builder.Services.AddDbContext<PetLoversDbContext>(option => option.UseSqlServer(
 // Subcribe service
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IPostServices, PostServices>();
+builder.Services.AddScoped<IEmailServices, EmailServices>();
 builder.Services.AddScoped<ICommentServices, CommentServices>();
 
 
 //Subcribe repository
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<IPostRepo, PostRepo>();
+builder.Services.AddTransient<IOTPRepo, OTPRepo>();
 builder.Services.AddTransient<ICommentRepo, CommentRepo>();
 
 
