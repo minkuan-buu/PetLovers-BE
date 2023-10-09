@@ -15,7 +15,7 @@ using MimeKit;
 using static System.Net.WebRequestMethods;
 using System.Net.Mail;
 
-namespace Business.Services.MailServices
+namespace Business.Services.EmailServices
 {
     public class EmailServices : IEmailServices
     {

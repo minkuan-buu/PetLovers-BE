@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Services.MailServices
+namespace Business.Services.EmailServices
 {
     public interface IEmailServices
     {

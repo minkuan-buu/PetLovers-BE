@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Business.Services.UserServices;
 using Data.Entities;
 using Business.Services.PostServices;
-using Business.Services.MailServices;
+using Business.Services.EmailServices;
 
 namespace API.Controllers
 {
