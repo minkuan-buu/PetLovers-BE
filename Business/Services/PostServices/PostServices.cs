@@ -1,6 +1,8 @@
 ﻿using Data.Models.PostModel;
 using Data.Models.ResultModel;
+using Data.Models.UserModel;
 using Data.Repositories.PostRepo;
+using Data.Repositories.UserRepo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace Business.Services.PostServices
     public class PostServices : IPostServices
     {
         private readonly IPostRepo _postRepo;
+        private readonly IUserRepo _userRepo;
 
         public PostServices(IPostRepo postRepo)
         {
@@ -42,12 +45,12 @@ namespace Business.Services.PostServices
             return result;
         }
 
-        public async Task<ResultModel> GetNewsFeed(Guid UserId)
+        public async Task<ResultModel> GetNewsFeed(Guid userId)
         {
             ResultModel result = new();
             try
             {
-                var data = await _postRepo.GetNewFeed(UserId);
+                var data = await _postRepo.GetNewFeed(userId);
                 if (data == null)
                 {
                     result.IsSuccess = false;
