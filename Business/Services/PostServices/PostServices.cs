@@ -1,4 +1,5 @@
-﻿using Data.Models.ResultModel;
+﻿using Data.Models.PostModel;
+using Data.Models.ResultModel;
 using Data.Repositories.PostRepo;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,29 @@ namespace Business.Services.PostServices
             return result;
         }
 
-
+        public async Task<ResultModel> GetNewsFeed(Guid UserId)
+        {
+            ResultModel result = new();
+            try
+            {
+                var data = await _postRepo.GetNewFeed(UserId);
+                if (data == null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "Not found";
+                    result.Code = 200;
+                    return result;
+                }
+                result.IsSuccess = true;
+                result.Data = data;
+            }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Code = 400;
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+            return result;
+        }
     }
 }

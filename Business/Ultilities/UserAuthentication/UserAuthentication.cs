@@ -9,14 +9,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Business.Services.SecretServices;
 using System.Threading.Tasks;
 
 namespace Business.Ultilities.UserAuthentication
 {
     public class UserAuthentication
     {
-        private static string Key = "DuAnSiTiShopTuSiTiGroupDaiHocEpBeTe";
-        private static string Issuser = "SiTiShop";
+        private static string Key = SecretService.GetJWTKey();
+        private static string Issuser = SecretService.GetJWTIssuser();
 
         public static byte[] CreatePasswordHash(string password)
         {
@@ -49,6 +50,7 @@ namespace Business.Ultilities.UserAuthentication
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub,UserInfo.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub,UserInfo.Username.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };
 

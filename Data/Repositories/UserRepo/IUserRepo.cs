@@ -11,12 +11,10 @@ namespace Data.Repositories.UserRepo
 {
     public interface IUserRepo : IRepository<TblUser>
     {
-        Task<TblUser> getUserByUsername(string username);
-
-        Task<Guid> GetRoleId(string RoleName);
-
-        Task<TblUser> GetUserByEmail(string Email);
-        
-        Task<UserModel> GetUserById(Guid id);
+        public Task<TblUser> getUserByUsername(string username);
+        public Task<Guid> GetRoleId(string RoleName);
+        public Task<TblUser> GetUserByEmail(string Email);
+        public Task<UserModel> GetUserById(Guid id);
+        public Task<List<UserModel>> GetFollowingUser(Guid authorId);
     }
 }

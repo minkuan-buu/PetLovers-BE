@@ -65,7 +65,6 @@ namespace Business.Services.UserServices
 
                 result.IsSuccess = true;
                 result.Code = 200;
-                //result.Data = HashPassword;
                 return result;
 
             }
@@ -103,8 +102,7 @@ namespace Business.Services.UserServices
                 string token = UserAuthentication.GenerateJWT(User);
                 result.IsSuccess = true;
                 result.Code = 200;
-                result.Data = User;
-                result.Message = token;
+                result.Data = token;
                 return result;
 
             }
